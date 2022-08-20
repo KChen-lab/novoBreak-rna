@@ -30,7 +30,7 @@ STAR --runMode alignReads --genomeDir <hg38.fa> --outSAMunmapped Within --twopas
 java -jar Xmg30g picard.jar MarkDuplicates -I bamfile -O output -M markdup.metrics -AS true -REMOVE_DUPLICATES true
 ```
 
-### Runrun_novobreak_rna.sh
+### Run run_novobreak_rna.sh
 
 ```
 bash run_novobreak_rna.sh -m <mode> -i <tumor.bam> -c <normal.bam> -r <reference.transcript> -g <reference.genome> -n <CUPs> -d <novoBreak-rna.directory> -o <output.directory> [options]
