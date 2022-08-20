@@ -1,0 +1,65 @@
+HGNC ID	Approved symbol	Approved name	Status	Locus type	Previous symbols	Alias symbols	Chromosome	NCBI Gene ID	Ensembl gene ID	Vega gene ID	Group ID	Group name
+HGNC:44278	RNA18S1	RNA, 18S ribosomal 1	Approved	RNA, ribosomal			13p12 not on reference assembly	106632259			1383	18S ribosomal RNAs
+HGNC:44279	RNA18S2	RNA, 18S ribosomal 2	Approved	RNA, ribosomal			14p12 not on reference assembly	106632258			1383	18S ribosomal RNAs
+HGNC:44280	RNA18S3	RNA, 18S ribosomal 3	Approved	RNA, ribosomal			15p12 not on reference assembly	106631782			1383	18S ribosomal RNAs
+HGNC:44281	RNA18S4	RNA, 18S ribosomal 4	Approved	RNA, ribosomal			21p12 not on reference assembly	110255165			1383	18S ribosomal RNAs
+HGNC:37657	RNA18S5	RNA, 18S ribosomal 5	Approved	RNA, ribosomal	RN18S1		22p12 not on reference assembly	110255169			1383	18S ribosomal RNAs
+HGNC:44286	RNA28S1	RNA, 28S ribosomal 1	Approved	RNA, ribosomal			13p12 not on reference assembly	106632267			1385	28S ribosomal RNAs
+HGNC:44287	RNA28S2	RNA, 28S ribosomal 2	Approved	RNA, ribosomal			14p12 not on reference assembly	106632266			1385	28S ribosomal RNAs
+HGNC:44288	RNA28S3	RNA, 28S ribosomal 3	Approved	RNA, ribosomal			15p12 not on reference assembly	106632265			1385	28S ribosomal RNAs
+HGNC:44289	RNA28S4	RNA, 28S ribosomal 4	Approved	RNA, ribosomal			21p12 not on reference assembly	110255164			1385	28S ribosomal RNAs
+HGNC:37659	RNA28S5	RNA, 28S ribosomal 5	Approved	RNA, ribosomal	RN28S1		22p12 not on reference assembly	110255168			1385	28S ribosomal RNAs
+HGNC:44274	RNA45S1	RNA, 45S pre-ribosomal 1	Approved	RNA, ribosomal			13p12 not on reference assembly	106631780			1382	45S pre-ribosomal RNAs
+HGNC:44275	RNA45S2	RNA, 45S pre-ribosomal 2	Approved	RNA, ribosomal			14p12 not on reference assembly	106631779			1382	45S pre-ribosomal RNAs
+HGNC:44276	RNA45S3	RNA, 45S pre-ribosomal 3	Approved	RNA, ribosomal			15p12 not on reference assembly	106631778			1382	45S pre-ribosomal RNAs
+HGNC:44277	RNA45S4	RNA, 45S pre-ribosomal 4	Approved	RNA, ribosomal			21p12 not on reference assembly	110255163			1382	45S pre-ribosomal RNAs
+HGNC:44273	RNA45S5	RNA, 45S pre-ribosomal 5	Approved	RNA, ribosomal			22p12 not on reference assembly	110255167			1382	45S pre-ribosomal RNAs
+HGNC:44282	RNA5-8S1	RNA, 5.8S ribosomal 1	Approved	RNA, ribosomal			13p12 not on reference assembly	106632263			1384	5.8S ribosomal RNAs
+HGNC:44283	RNA5-8S2	RNA, 5.8S ribosomal 2	Approved	RNA, ribosomal			14p12 not on reference assembly	106632262			1384	5.8S ribosomal RNAs
+HGNC:44284	RNA5-8S3	RNA, 5.8S ribosomal 3	Approved	RNA, ribosomal			15p12 not on reference assembly	106632261			1384	5.8S ribosomal RNAs
+HGNC:44285	RNA5-8S4	RNA, 5.8S ribosomal 4	Approved	RNA, ribosomal			21p12 not on reference assembly	110255166			1384	5.8S ribosomal RNAs
+HGNC:37660	RNA5-8S5	RNA, 5.8S ribosomal 5	Approved	RNA, ribosomal	RN5-8S1		22p12 not on reference assembly	110255170			1384	5.8S ribosomal RNAs
+HGNC:34362	RNA5S1	RNA, 5S ribosomal 1	Approved	RNA, ribosomal	RN5S1		1q42.13	100169751	ENSG00000199352		1380	5S ribosomal RNAs
+HGNC:34371	RNA5S10	RNA, 5S ribosomal 10	Approved	RNA, ribosomal	RN5S10		1q42.13	100169761	ENSG00000199910		1380	5S ribosomal RNAs
+HGNC:34372	RNA5S11	RNA, 5S ribosomal 11	Approved	RNA, ribosomal	RN5S11		1q42.13	100169762	ENSG00000199334		1380	5S ribosomal RNAs
+HGNC:34373	RNA5S12	RNA, 5S ribosomal 12	Approved	RNA, ribosomal	RN5S12		1q42.13	100169763	ENSG00000199270		1380	5S ribosomal RNAs
+HGNC:34374	RNA5S13	RNA, 5S ribosomal 13	Approved	RNA, ribosomal	RN5S13		1q42.13	100169764	ENSG00000202526		1380	5S ribosomal RNAs
+HGNC:34375	RNA5S14	RNA, 5S ribosomal 14	Approved	RNA, ribosomal	RN5S14		1q42.13	100169765	ENSG00000201355		1380	5S ribosomal RNAs
+HGNC:34376	RNA5S15	RNA, 5S ribosomal 15	Approved	RNA, ribosomal	RN5S15		1q42.13	100169766	ENSG00000201925		1380	5S ribosomal RNAs
+HGNC:34377	RNA5S16	RNA, 5S ribosomal 16	Approved	RNA, ribosomal	RN5S16		1q42.13	100169767	ENSG00000202257		1380	5S ribosomal RNAs
+HGNC:34378	RNA5S17	RNA, 5S ribosomal 17	Approved	RNA, ribosomal	RN5S17		1q42.13	100169768	ENSG00000200370		1380	5S ribosomal RNAs
+HGNC:34363	RNA5S2	RNA, 5S ribosomal 2	Approved	RNA, ribosomal	RN5S2		1q42.13	100169753	ENSG00000201588		1380	5S ribosomal RNAs
+HGNC:34364	RNA5S3	RNA, 5S ribosomal 3	Approved	RNA, ribosomal	RN5S3		1q42.13	100169754	ENSG00000199337		1380	5S ribosomal RNAs
+HGNC:34365	RNA5S4	RNA, 5S ribosomal 4	Approved	RNA, ribosomal	RN5S4		1q42.13	100169755	ENSG00000200381		1380	5S ribosomal RNAs
+HGNC:34366	RNA5S5	RNA, 5S ribosomal 5	Approved	RNA, ribosomal	RN5S5		1q42.13	100169756	ENSG00000199396		1380	5S ribosomal RNAs
+HGNC:34367	RNA5S6	RNA, 5S ribosomal 6	Approved	RNA, ribosomal	RN5S6		1q42.13	100169757	ENSG00000200624		1380	5S ribosomal RNAs
+HGNC:34368	RNA5S7	RNA, 5S ribosomal 7	Approved	RNA, ribosomal	RN5S7		1q42.13	100169758	ENSG00000202521		1380	5S ribosomal RNAs
+HGNC:34369	RNA5S8	RNA, 5S ribosomal 8	Approved	RNA, ribosomal	RN5S8		1q42.13	100169759	ENSG00000200343		1380	5S ribosomal RNAs
+HGNC:34370	RNA5S9	RNA, 5S ribosomal 9	Approved	RNA, ribosomal	RN5S9		1q42.13	100169760	ENSG00000201321		1380	5S ribosomal RNAs
+HGNC:7470	MT-RNR1	mitochondrially encoded 12S rRNA	Approved	RNA, ribosomal	MTRNR1	12S, MOTS-c	mitochondria	4549	ENSG00000211459		1378	Mitochondrially encoded ribosomal RNAs
+HGNC:7471	MT-RNR2	mitochondrially encoded 16S rRNA	Approved	RNA, ribosomal	MTRNR2	HN, 16S	mitochondria	4550	ENSG00000210082		1378	Mitochondrially encoded ribosomal RNAs
+HGNC:10082	RNR1	RNA, ribosomal 45S cluster 1	Approved	RNA, cluster			13p12 not on reference assembly	6052			1381	Ribosomal 45S RNA clusters
+HGNC:10083	RNR2	RNA, ribosomal 45S cluster 2	Approved	RNA, cluster			14p12 not on reference assembly	6053			1381	Ribosomal 45S RNA clusters
+HGNC:10084	RNR3	RNA, ribosomal 45S cluster 3	Approved	RNA, cluster			15p12 not on reference assembly	6054			1381	Ribosomal 45S RNA clusters
+HGNC:10085	RNR4	RNA, ribosomal 45S cluster 4	Approved	RNA, cluster			21p12 not on reference assembly	6055			1381	Ribosomal 45S RNA clusters
+HGNC:10086	RNR5	RNA, ribosomal 45S cluster 5	Approved	RNA, cluster			22p12 not on reference assembly	6056			1381	Ribosomal 45S RNA clusters
+HGNC:53515	RNA18SN1	RNA, 18S ribosomal N1	Approved	RNA, ribosomal			21p11.2	106631781			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53519	RNA18SN2	RNA, 18S ribosomal N2	Approved	RNA, ribosomal			21p11.2	109864280			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53523	RNA18SN3	RNA, 18S ribosomal N3	Approved	RNA, ribosomal			21p11.2	109910380			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53528	RNA18SN4	RNA, 18S pre-ribosomal N4	Approved	RNA, ribosomal			22 unplaced	109864273			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53531	RNA18SN5	RNA, 18S ribosomal N5	Approved	RNA, ribosomal			unplaced	100008588			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53516	RNA28SN1	RNA, 28S ribosomal N1	Approved	RNA, ribosomal			21p11.2	106632264			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53520	RNA28SN2	RNA, 28S ribosomal N2	Approved	RNA, ribosomal			21p11.2	109864282			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53524	RNA28SN3	RNA, 28S ribosomal N3	Approved	RNA, ribosomal			21p11.2	109910382			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53527	RNA28SN4	RNA, 28S ribosomal N4	Approved	RNA, ribosomal			22 unplaced	109864272			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53532	RNA28SN5	RNA, 28S ribosomal N5	Approved	RNA, ribosomal			unplaced	100008589			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53514	RNA45SN1	RNA, 45S pre-ribosomal N1	Approved	RNA, ribosomal			21p11.2	106631777			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53518	RNA45SN2	RNA, 45S pre-ribosomal N2	Approved	RNA, ribosomal			21p11.2	109864279			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53522	RNA45SN3	RNA, 45S pre-ribosomal N3	Approved	RNA, ribosomal			21p11.2	109910379			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53526	RNA45SN4	RNA, 45S pre-ribosomal N4	Approved	RNA, ribosomal			22 unplaced	109864271			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53530	RNA45SN5	RNA, 45S pre-ribosomal N5	Approved	RNA, ribosomal			unplaced	100861532			1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53517	RNA5-8SN1	RNA, 5.8S ribosomal N1	Approved	RNA, ribosomal			21p11.2	106632260	ENSG00000278189		1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53521	RNA5-8SN2	RNA, 5.8S ribosomal N2	Approved	RNA, ribosomal	RNA5-8N2		21p11.2	109864281	ENSG00000278233		1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53525	RNA5-8SN3	RNA, 5.8S ribosomal N3	Approved	RNA, ribosomal			21p11.2	109910381	ENSG00000275215		1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53529	RNA5-8SN4	RNA, 5.8S ribosomal N4	Approved	RNA, ribosomal			22 unplaced	109864274	ENSG00000276700		1528	Ribosomal 45S rRNA genes outside of clusters
+HGNC:53533	RNA5-8SN5	RNA, 5.8S ribosomal N5	Approved	RNA, ribosomal			unplaced	100008587	ENSG00000274917		1528	Ribosomal 45S rRNA genes outside of clusters
