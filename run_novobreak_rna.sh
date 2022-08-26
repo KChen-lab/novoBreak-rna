@@ -63,10 +63,10 @@ $bwa mem -t12 -M -T0 $genome_ref ssake.ctg.fa > ssake.ctg_hg38.sam
 
 if [[ $mode == "fusion" ]]
 then
-	## infer fusions
+	### infer fusions
 	perl $directory/src/infer_genefusion.pl ssake.ctg_hg38.sam | grep -v KI | grep -v GL | grep -v MT > ssake.ctg_hg38.vcf
-	## annotate and generate raw fusions
-	python $directory/src/annovar_annotation.py ssake.ctg_hg38.vcf $directory
+	### annotate and generate raw fusions
+	python $directory/src/annovar_annotation.py ssake.ctg_hg38.vcf $directory $mode
 	grep -v '^#' ssake.ctg_hg38.all.annovar | awk  -v OFS="\t" '{gsub(/\|/, "\t", $6); print}' | sed 's/read//' | perl -ne '$chr2=$1 if /CHR2=(\S+?);/; $pos2=$1 if /END=(\d+);/; print $chr2,"\t",$pos2,"\t",$_' | awk '{if(!x[$1$2$3$4]){y[$1$2$3$4]=$6;x[$1$2$3$4]=$0}else{if($6>y[$1$2$3$4]){y[$1$2$3$4]=$6; x[$1$2$3$4]=$0}}}END{for(i in x){print x[i]}}' | cut -f3- | sort -k1,1 -k2,2n  | perl -ne 'if(/TRA/){print}elsif(/SVLEN=(\d+)/){if($1>50000){print $_}}elsif(/SVLEN=-(\d+)/){if($1>50000){print}}' > ssake.pass.vcf
 	python $directory/src/mark_multi_hit.py ssake.pass.vcf $directory
 elif [[ $mode == "splice" ]]
@@ -75,8 +75,8 @@ then
 	perl $directory/src/infer_splicejunction.pl ssake.ctg_hg38.sam | grep -v KI | grep -v GL | grep -v MT > ssake.ctg_hg38.vcf
 	
 	## annotate and generate raw splice junctions
-	python $directory/src/annovar_annotation.py ssake.ctg_hg38.vcf $directory
-	grep -v '^#' ssake.ctg_hg38.all.annovar | awk  -v OFS="\t" '{gsub(/\|/, "\t", $6); print}' | sed 's/read//' | perl -ne '$chr2=$1 if /CHR2=(\S+?);/; $pos2=$1 if /END=(\d+);/; print $chr2,"\t",$pos2,"\t",$_' | awk '{if(!x[$1$2$3$4]){y[$1$2$3$4]=$6;x[$1$2$3$4]=$0}else{if($6>y[$1$2$3$4]){y[$1$2$3$4]=$6; x[$1$2$3$4]=$0}}}END{for(i in x){print x[i]}}' | cut -f3- | sort -k1,1 -k2,2n  | perl -ne 'if(/SVLEN=(\d+)/){if($1>50 and $1<400000){print $_}}elsif(/SVLEN=-(\d+)/){if($1>50 and $1<400000){print}}' > ssake.pass.vcf
+	python $directory/src/annovar_annotation.py ssake.ctg_hg38.vcf $directory $mode
+	grep -v '^#' ssake.ctg_hg38.all.annovar | awk  -v OFS="\t" '{gsub(/\|/, "\t", $6); print}' | sed 's/read//' | perl -ne '$chr2=$1 if /CHR2=(\S+?);/; $pos2=$1 if /END=(\d+);/; print $chr2,"\t",$pos2,"\t",$_' | awk '{if(!x[$1$2$3$4]){y[$1$2$3$4]=$6;x[$1$2$3$4]=$0}else{if($6>y[$1$2$3$4]){y[$1$2$3$4]=$6; x[$1$2$3$4]=$0}}}END{for(i in x){print x[i]}}' | cut -f3- | sort -k1,1 -k2,2n  | perl -ne 'if(/SVLEN=(\d+)/){if($1>50 and $1<400000){print $_}}elsif(/SVLEN=-(\d+)/){if($1>50 and $1<400000){print}}' > mark.vcf
 else
 	echo "not a valid mode options (support 'fusion' and 'splice' only)"
 fi
@@ -106,5 +106,6 @@ then
 elif [[ $mode == "splice" ]]
 then
 	perl $directory/src/filter_splice_junction.pl filter_split/*.sp.vcf | cat header.txt - > novoBreak.rna.pass.vcf
+	perl $directory/src/full_filter_sv_icgc.pl filter_split/*.sp.vcf | cat header.txt - > full_novoBreak.rna.pass.vcf 
 fi
 cd ..

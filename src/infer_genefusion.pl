@@ -9,7 +9,8 @@ my @slines = ();
 my @dlines = ();
 
 my $id = 0;
-print qq(#CHROM	POS	ALT	QUAL	INFO	ENSEMBL);
+print qq(#CHROM	POS	ALT	QUAL	INFO	ENSEMBL
+);
 my $pre = "";
 my @results = ();
 while (<>) {
