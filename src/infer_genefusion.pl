@@ -66,7 +66,8 @@ while (<>) {
 		if ($e[5] =~ /(\d+)[SH].+M(\d+)[SH]/) {
 			my $tmp = $e[5];
 			if ($1 > 20) {
-				$e[5] =~ s/$2[SH]//;
+				my @f=split(/M/, $e[5]);	
+				$e[5] = "$f[0]M";
 				$_ = join ("\t", @e);
 				push @dlines, $_;
 				$e[5] = $tmp;
@@ -84,7 +85,8 @@ while (<>) {
 		if ($e[5] =~ /(\d+)[SH].+M(\d+)[SH]/) {
 			my $tmp = $e[5];
 			if ($1 > 20) {
-				$e[5] =~ s/$2[SH]//;
+				my @f=split(/M/, $e[5]);	
+				$e[5] = "$f[0]M";
 				$_ = join ("\t", @e);
 				push @dlines, $_;
 				$e[5] = $tmp;
@@ -161,7 +163,8 @@ sub parse_bp1 {
 	} else {
 		$pos2 = $e2[3]+$m2-1;
 	}
-	if (abs($m1-$s2)<=25 or abs($m2-$s1)<=25) {
+	#if (abs($m1-$s2)<=25 or abs($m2-$s1)<=25) {
+	if ($m1>=10 and $m2>=10) {
 		if ($e1[2] ne $e2[2]) { # trans
 			if ((($e1[1] & 0x10) ^ ($e2[1] & 0x10)) == 0) { # +,+ or -,-
 				if (($pos1 == $e1[3] and $pos2 != $e2[3]) or ($pos2 == $e2[3] and $pos1 != $e1[3])) {

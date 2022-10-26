@@ -9,7 +9,7 @@ my @slines = ();
 my @dlines = ();
 
 my $id = 0;
-print qq(#CHROM	POS	ALT	QUAL	INFO	ENSEMBL
+print qq(#CHROM	POS	STRAND	QUAL	INFO	ENSEMBL
 );
 my $pre = "";
 my @results = ();
@@ -66,7 +66,8 @@ while (<>) {
 		if ($e[5] =~ /(\d+)[SH].+M(\d+)[SH]/) {
 			my $tmp = $e[5];
 			if ($1 > 20) {
-				$e[5] =~ s/$2[SH]//;
+				my @f=split(/M/, $e[5]);	
+				$e[5] = "$f[0]M";
 				$_ = join ("\t", @e);
 				push @dlines, $_;
 				$e[5] = $tmp;
@@ -84,7 +85,8 @@ while (<>) {
 		if ($e[5] =~ /(\d+)[SH].+M(\d+)[SH]/) {
 			my $tmp = $e[5];
 			if ($1 > 20) {
-				$e[5] =~ s/$2[SH]//;
+				my @f=split(/M/, $e[5]);	
+				$e[5] = "$f[0]M";
 				$_ = join ("\t", @e);
 				push @dlines, $_;
 				$e[5] = $tmp;
@@ -161,21 +163,48 @@ sub parse_bp1 {
 	} else {
 		$pos2 = $e2[3]+$m2-1;
 	}
-	if (abs($m1-$s2)<=25 or abs($m2-$s1)<=25) {
+	#if (abs($m1-$s2)<=25 or abs($m2-$s1)<=25) {
+	if ($m1>=10 or $m2>=10) {
 		if ($e1[2] eq $e2[2]) {
-			if ((($e1[1] & 16) and ($e2[1] & 16)) or ((!($e1[1] & 16)) and (!($e2[1] & 16)))) {
+			if ((($e1[1] & 16) and !($e2[1] & 16)) or ((!($e1[1] & 16)) and ($e2[1] & 16))) { # inv
+				if(abs($pos2 - $pos1) < 10) { # TODO magic number controling inv size
+				} 
+				else {
+					if (($pos1 == $e1[3] and $pos2 == $e2[3]) or ($pos2 != $e2[3] and $pos1 != $e1[3])) {
+						if ($pos1 < $pos2) {
+							push @ret, [ ($e1[2], $pos1, "+", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=INV;CHR2=$e2[2];END=$pos2;SVLEN=".abs($pos2-$pos1+1), $e2[0]) ] ;
+							push @ret, [ ($e1[2], $pos1, "-", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=INV;CHR2=$e2[2];END=$pos2;SVLEN=".abs($pos2-$pos1+1), $e2[0]) ] ;
+						} else {
+							push @ret, [ ($e2[2], $pos2, "+", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=INV;CHR2=$e2[2];END=$pos1;SVLEN=".abs($pos2-$pos1+1), $e2[0]) ] ;
+							push @ret, [ ($e2[2], $pos2, "-", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=INV;CHR2=$e2[2];END=$pos1;SVLEN=".abs($pos2-$pos1+1), $e2[0]) ] ;
+						}
+					}
+				}
+			} else {
 				if ($pos1 < $pos2) {
-					if ((!($e1[1]&16) and ($pos1 != $e1[3] and $pos2 == $e2[3])) or ($e1[1]&16 and ($pos1 == $e1[3] and $pos2 != $e2[3]))) { 
+					if (!($e1[1]&16) and (($pos1 == $e1[3] and $pos2 != $e2[3]) or ($pos1 != $e1[3] and $pos2 == $e2[3]))) { 
 						if(abs($pos2 - $pos1) > 10) { # TODO magic number controling del size
-							push @ret, [ ($e1[2], $pos1, "<DEL>", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e2[2];END=$pos2;SVLEN=".($pos1-$pos2), $e2[0])] ;
+							push @ret, [ ($e1[2], $pos1, "+", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e2[2];END=$pos2;SVLEN=".($pos1-$pos2), $e2[0])] ;
+							push @ret, [ ($e1[2], $pos1, "-", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e2[2];END=$pos2;SVLEN=".($pos1-$pos2), $e2[0])] ;
+						}
+					} elsif ($e1[1]&16 and (($pos1 != $e1[3] and $pos2 == $e2[3]) or ($pos1 == $e1[3] and $pos2 != $e2[3]))) { 
+						if(abs($pos2 - $pos1) > 10) { # TODO magic number controling del size
+							push @ret, [ ($e1[2], $pos1, "-", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e2[2];END=$pos2;SVLEN=".($pos1-$pos2), $e2[0])] ;
+							push @ret, [ ($e1[2], $pos1, "+", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e2[2];END=$pos2;SVLEN=".($pos1-$pos2), $e2[0])] ;
 						}
 					}
 				} else {
-					if ((!($e2[1]&16) and ($pos1 == $e1[3] and $pos2 != $e2[3])) or ($e2[1]&16 and ($pos1 != $e1[3] and $pos2 == $e2[3]))) {
+					if (!($e2[1]&16) and (($pos1 == $e1[3] and $pos2 != $e2[3]) or ($pos1 != $e1[3] and $pos2 == $e2[3]))) {
 						if(abs($pos2 - $pos1) > 10) { # TODO magic number controling del size
-							push @ret, [ ($e2[2], $pos2, "<DEL>", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e1[2];END=$pos1;SVLEN=".($pos2-$pos1), $e2[0]) ];
+							push @ret, [ ($e2[2], $pos2, "+", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e1[2];END=$pos1;SVLEN=".($pos2-$pos1), $e2[0]) ];
+							push @ret, [ ($e2[2], $pos2, "-", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e1[2];END=$pos1;SVLEN=".($pos2-$pos1), $e2[0]) ];
 						}
-					} 
+					} elsif ($e2[1]&16 and (($pos1 != $e1[3] and $pos2 == $e2[3]) or ($pos1 == $e1[3] and $pos2 != $e2[3]))) {
+						if(abs($pos2 - $pos1) > 10) { # TODO magic number controling del size
+							push @ret, [ ($e2[2], $pos2, "-", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e1[2];END=$pos1;SVLEN=".($pos2-$pos1), $e2[0]) ];
+							push @ret, [ ($e2[2], $pos2, "+", ($e1[4]+$e2[4])/2, "CONSENSUS=$seq;SVTYPE=DEL;CHR2=$e1[2];END=$pos1;SVLEN=".($pos2-$pos1), $e2[0]) ];
+						}
+					}
 				}
 			}
 		}

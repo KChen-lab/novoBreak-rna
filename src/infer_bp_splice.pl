@@ -21,30 +21,17 @@ while (<IN>) {
 	my $beg = $e[1]-500;
 	my $fin = $e[1]+500;
 	my $chr1 = $e[0];
-	my $end = 0;
-	if ($line =~ /END=(\d+);/) {
-		$end = $1;
-	}
-	my $chr2;
-	if ($line =~ /CHR2=(\S+?);/) {
-		$chr2 = $1;
-	}
-	my $beg2 = $end-500;
-	my $fin2 = $end+500;
-	my $len;
-	if (/SVLEN=(\S+)/) {
-		$len = $1>=0?$1:-$1;
-	}
+	my $beg2 = $e[2]-500;
+	my $fin2 = $e[2]+500;
 	$chr1=~ tr/chr//d;
-	$chr2=~ tr/chr//d;
 	system("samtools", "view", $tbam, "chr".$chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
 	open $fh , "$PID.regionsam2.tmp" or die $!;
 	my @pos1_tum = count_sp($fh, $e[1]);
 	seek $fh, 0, 0;
 	close $fh;
-	system("samtools", "view", $tbam, "chr".$chr2.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	system("samtools", "view", $tbam, "chr".$chr1.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
 	open $fh , "$PID.regionsam2.tmp" or die $!;
-	my @pos2_tum = count_sp($fh, $end);
+	my @pos2_tum = count_sp($fh, $e[2]);
 	seek $fh, 0, 0;
 	close $fh;
 	print join("\t", ($line, @pos1_tum, @pos2_tum)), "\n";
@@ -110,20 +97,20 @@ sub count_sp {
                                              		 }
 						}
                                               }
-                                       } elsif ($f[$i] =~ /(\d+)[M]/g) {
+				       } elsif ($f[$i] =~ /(\d+)[M]/g) {
                                              $bp = $e[3] + $1 - 1;
 					     if ($1 > 10){
 				             	if ($bp >= $target-1 and $bp <= $target+1) {
-				             		$cnt ++;
-				             		$qual += $e[4];
-				             		if ($e[4] >= 29) {
-				             			$cnt2 ++;
-				             			$qual2 += $e[4];
-				             		}
-							if ($e[4] == 255){
-								$cnt3 ++;
-								$qual3 += $e[4];
-							}
+				             			$cnt ++;
+				             			$qual += $e[4];
+				             			if ($e[4] >= 29) {
+				             				$cnt2 ++;
+				             				$qual2 += $e[4];
+				             			}
+								if ($e[4] == 255){
+									$cnt3 ++;
+									$qual3 += $e[4];
+								}
 				             	last; 
 				             	}
                                              } 
