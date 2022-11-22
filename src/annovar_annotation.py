@@ -65,7 +65,10 @@ with open(inputAllAnnoPath, 'r') as reader:
                     originalString = "\t".join(str(x) for x in cols[7:])
                     outputAnno_all.write(originalString+"\t"+annoB+"\t"+geneB+"\n")
         elif mode == 'splice':
-                if geneA == geneB and annoA!='intergenic' and annoB!='intergenic':
+                geneAset = re.split(r",|;|/|-AS|-IT", geneA)
+                A = list(filter(None, geneAset))
+                geneBset = re.split(r",|;|/|-AS|-IT", geneB)
+                B = list(filter(None, geneBset))
+                if (set(A) & set(B)) or (set(A) & set(['None'])) or (set(B) & set(['None'])):
                     originalString = "\t".join(str(x) for x in cols[7:])
                     outputAnno_all.write(originalString+"\t"+annoB+"\t"+geneB+"\n")
-

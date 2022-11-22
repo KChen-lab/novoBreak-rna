@@ -24,8 +24,7 @@ fi
 
 if [[ -z $ref ]]
 then
-    #ref=${directory}/source/mrna.fa
-    ref=/rsrch3/scratch/bcb/ytan1/prj/TCGA_PRAD/reference/ensembl_transcript/mrna_32.fa
+    ref=${directory}/source/mrna.fa
 fi
 
 if [[ -z $genome_ref ]]
@@ -77,7 +76,7 @@ then
 	
 	## annotate and generate raw splice junctions
 	python $directory/src/annovar_annotation.py ssake.ctg_hg38.vcf $directory $mode
-	grep -v '^#' ssake.ctg_hg38.all.annovar | awk  -v OFS="\t" '{gsub(/\|/, "\t", $6); print}' | sed 's/read//' | perl -ne '$chr2=$1 if /CHR2=(\S+?);/; $pos2=$1 if /END=(\d+);/; print $chr2,"\t",$pos2,"\t",$_' | awk '{if(!x[$1$2$3$4]){y[$1$2$3$4]=$6;x[$1$2$3$4]=$0}else{if($6>y[$1$2$3$4]){y[$1$2$3$4]=$6; x[$1$2$3$4]=$0}}}END{for(i in x){print x[i]}}' | cut -f3- | sort -k1,1 -k2,2n  | perl -ne 'if(/SVLEN=(\d+)/){if($1>50 and $1<400000){print $_}}elsif(/SVLEN=-(\d+)/){if($1>50 and $1<400000){print}}' > mark.vcf
+	grep -v '^#' ssake.ctg_hg38.all.annovar | awk  -v OFS="\t" '{gsub(/\|/, "\t", $6); print}' | sed 's/read//' | perl -ne '$chr2=$1 if /CHR2=(\S+?);/; $pos2=$1 if /END=(\d+);/; print $chr2,"\t",$pos2,"\t",$_' | awk '{if(!x[$1$2$3$4$5]){y[$1$2$3$4$5]=$6;x[$1$2$3$4$5]=$0}else{if($6>y[$1$2$3$4$5]){y[$1$2$3$4$5]=$6; x[$1$2$3$4$5]=$0}}}END{for(i in x){print x[i]}}' | cut -f3- | sort -k1,1 -k2,2n  | perl -ne 'if(/SVLEN=(\d+)/){if($1>50 and $1<400000){print $_}}elsif(/SVLEN=-(\d+)/){if($1>50 and $1<400000){print}}' > mark.vcf
 else
 	echo "not a valid mode options (support 'fusion' and 'splice' only)"
 fi
@@ -114,7 +113,8 @@ then
 		do
 			awk -v i=$i -v j=$j '{$4+=i; $2+=j; if ($2 > $4) print $1"\t"$4"\t"$2-1"\t"".""\t"".""\t"$5"\t"$4"\t"$2-1"\t""255,0,0""\t""2""\t"".,.""\t"".,."; else print $1"\t"$2"\t"$4-1"\t"".""\t"".""\t"$5"\t"$2"\t"$4-1"\t""255,0,0""\t""2""\t"".,.""\t"".,.";}' splice_junction.txt > sj_${i}_${j}.bed
 			/rsrch3/scratch/bcb/ytan1/prj/tool/regtools/build/regtools junctions annotate -S -o sj_${i}_${j}_annotated_novobreak.tsv sj_${i}_${j}.bed /rsrch3/scratch/bcb/ytan1/prj/reference/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa /rsrch3/scratch/bcb/ytan1/prj/reference/Homo_sapiens.GRCh38.105.gtf
-			paste -d ' ' sj_${i}_${j}_annotated_novobreak.tsv <(cut -f6,7 splice_junction.txt) > sj_new_${i}_${j}_annotated_novobreak.tsv
+			sed -i '1d' sj_${i}_${j}_annotated_novobreak.tsv
+			paste sj_${i}_${j}_annotated_novobreak.tsv <(cut -f6,7 splice_junction.txt) > sj_new_${i}_${j}_annotated_novobreak.tsv
 			flag=$(( ($i<0?-$i:$i)+($j<0?-$j:$j) ))
 			sed -i "s/$/\t${flag}/" sj_new_${i}_${j}_annotated_novobreak.tsv
 		done

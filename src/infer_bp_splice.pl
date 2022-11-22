@@ -65,6 +65,7 @@ sub count_sp {
 				$f[$i]="$f[$i]M";
 				if($i==0){
                                        if ($f[$i] =~ /(\d+)[SHD](\d+)[M]/g) {
+					     $bp = $e[3];
                                              if ($bp >= $target-1 and $bp <= $target+1) {
 						if ($2 > 10){
                                              		$cnt ++;
@@ -80,7 +81,7 @@ sub count_sp {
                                               		last;
 						}
                                               } else {
-                                              	$bp = $[3] + $2 - 1;
+                                              	$bp = $e[3] + $2 - 1;
 						if ($2 > 10){
                                              		if ($bp >= $target-1 and $bp <= $target+1) {
                                              			$cnt ++;

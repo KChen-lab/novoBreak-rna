@@ -19,9 +19,9 @@ for name in glob.glob(position+"/sj_new_*_annotated_novobreak.tsv"):
 			if index not in table and (re.match("[GN][TN]-[AN][GN]", row[6], re.IGNORECASE) or re.match("[GN][CN]-[AN][GN]", row[6], re.IGNORECASE) or re.match("[AN][TN]-[AN][CN]", row[6], re.IGNORECASE)):
 				table[index] = row	
 			elif index in table and (re.match("[GN][TN]-[AN][GN]", row[6], re.IGNORECASE) or re.match("[GN][CN]-[AN][GN]", row[6], re.IGNORECASE) or re.match("[AN][TN]-[AN][CN]", row[6], re.IGNORECASE)):
-				if row[18] < table[index][18]:
+				if row[-1] < table[index][-1]:
 					table[index] = row
-				elif row[18] == table[index][18]:
+				elif row[-1] == table[index][-1]:
 					if re.match("[GN][TN]-[AN][GN]", row[6], re.IGNORECASE):
 						table[index] = row
 					elif re.match("[GN][CN]-[AN][GN]", row[6], re.IGNORECASE) and re.match("[AN][TN]-[AN][CN]", table[index][6], re.IGNORECASE):
