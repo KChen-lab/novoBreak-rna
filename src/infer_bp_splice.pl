@@ -6,8 +6,9 @@ use strict;
 use warnings;
 use English;
 
-my $vcf = shift or die "Usage: $0 <vcf> <tumor.bam>\n";
-my $tbam = shift or die "Usage: $0 <vcf> <tumor.bam>\n";
+my $vcf = shift or die "Usage: $0 <vcf> <tumor.bam> <bool>\n";
+my $tbam = shift or die "Usage: $0 <vcf> <tumor.bam> <bool>\n";
+my $bool = shift or die  "Usage: $0 <vcf> <tumor.bam> <bool>\n";
 
 open IN, $vcf or die $!;
 while (<IN>) {
@@ -24,12 +25,20 @@ while (<IN>) {
 	my $beg2 = $e[2]-500;
 	my $fin2 = $e[2]+500;
 	$chr1=~ tr/chr//d;
-	system("samtools", "view", $tbam, "chr".$chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
+	if ($bool eq 'True'){
+		system("samtools", "view", $tbam, "chr".$chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
+	}else{
+		system("samtools", "view", $tbam, $chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
+	}
 	open $fh , "$PID.regionsam2.tmp" or die $!;
 	my @pos1_tum = count_sp($fh, $e[1]);
 	seek $fh, 0, 0;
 	close $fh;
-	system("samtools", "view", $tbam, "chr".$chr1.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	if ($bool eq 'True'){
+		system("samtools", "view", $tbam, "chr".$chr1.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	}else{
+		system("samtools", "view", $tbam, $chr1.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	}
 	open $fh , "$PID.regionsam2.tmp" or die $!;
 	my @pos2_tum = count_sp($fh, $e[2]);
 	seek $fh, 0, 0;

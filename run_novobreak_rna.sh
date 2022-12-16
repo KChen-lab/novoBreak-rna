@@ -3,7 +3,7 @@
 #Author: Yukun Tan
 #
 
-while getopts g:r:i:c:n:o:d:m: flag
+while getopts g:r:i:c:n:o:d:m:k: flag
 do
     case "${flag}" in
         r) ref=${OPTARG};;
@@ -13,7 +13,8 @@ do
         o) output=${OPTARG};;
 	d) directory=${OPTARG};;
 	g) genome_ref=${OPTARG};;
-	m) mode=${OPTARG}	
+	m) mode=${OPTARG};;
+	k) check=${OPTARG}
     esac
 done
 
@@ -24,12 +25,17 @@ fi
 
 if [[ -z $ref ]]
 then
-    ref=${directory}/source/mrna.fa
+    ref=${directory}/database/mrna.fa
 fi
 
 if [[ -z $genome_ref ]]
 then
-    genome_ref=/rsrch3/scratch/bcb/ytan1/prj/reference/BWA/hg38/genome
+    genome_ref=${directory}/database/hg38/genome
+fi
+
+if [[ -z $check ]]
+then
+    check="True"
 fi
 
 novobreak=${directory}/app/novoBreak
@@ -94,25 +100,24 @@ then
 	for file in x??
 	do
 		echo $file
-		perl $directory/src/infer_bp_v4.pl $file $tumor > $file.sp.vcf &
+		perl $directory/src/infer_bp_fusion.pl $file $tumor $check > $file.sp.vcf &
 	done
 	wait
 	cd ..
 
-	perl $directory/src/filter_sv_icgc.pl filter_split/*.sp.vcf | cat header.txt - > novoBreak.rna.pass.vcf 
-	perl $directory/src/full_filter_sv_icgc.pl filter_split/*.sp.vcf | cat header.txt - > full_novoBreak.rna.pass.vcf 
+	perl $directory/src/filter_fusion.pl filter_split/*.sp.vcf | cat header.txt - > fusion_novoRNABreak_pass.tsv
 	python $directory/src/fusion_genes.py $output
 
 elif [[ $mode == "splice" ]]
 then
 	cat mark.vcf | perl -ne '$chr2=$1 if /CHR2=(\S+?);/; $pos2=$1 if /END=(\d+);/; print $chr2,"\t",$pos2,"\t",$_' | cut -f1,2,3,4,5,6,11 > splice_junction.txt
 
-	for i in 5 4 3 2 1 0 -1 -2 -3 -4 -5
+	for i in 3 2 1 0 -1 -2 -3
 	do
-		for j in 5 4 3 2 1 0 -1 -2 -3 -4 -5
+		for j in 3 2 1 0 -1 -2 -3
 		do
 			awk -v i=$i -v j=$j '{$4+=i; $2+=j; if ($2 > $4) print $1"\t"$4"\t"$2-1"\t"".""\t"".""\t"$5"\t"$4"\t"$2-1"\t""255,0,0""\t""2""\t"".,.""\t"".,."; else print $1"\t"$2"\t"$4-1"\t"".""\t"".""\t"$5"\t"$2"\t"$4-1"\t""255,0,0""\t""2""\t"".,.""\t"".,.";}' splice_junction.txt > sj_${i}_${j}.bed
-			/rsrch3/scratch/bcb/ytan1/prj/tool/regtools/build/regtools junctions annotate -S -o sj_${i}_${j}_annotated_novobreak.tsv sj_${i}_${j}.bed /rsrch3/scratch/bcb/ytan1/prj/reference/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa /rsrch3/scratch/bcb/ytan1/prj/reference/Homo_sapiens.GRCh38.105.gtf
+			$directory/app/regtools junctions annotate -S -o sj_${i}_${j}_annotated_novobreak.tsv sj_${i}_${j}.bed $directory/database/hg38/genome.fa $directory/database/hg38/genome.gtf
 			sed -i '1d' sj_${i}_${j}_annotated_novobreak.tsv
 			paste sj_${i}_${j}_annotated_novobreak.tsv <(cut -f6,7 splice_junction.txt) > sj_new_${i}_${j}_annotated_novobreak.tsv
 			flag=$(( ($i<0?-$i:$i)+($j<0?-$j:$j) ))
@@ -120,24 +125,24 @@ then
 		done
 	done
 	python $directory/src/merge.py $output
-	cat merged_total.csv | sort -u -k1,1 -k2,2n -k3,3n > final_report.csv
+	cat merged_total.csv | sort -u -k1,1 -k2,2n -k3,3n > merged_splice.csv
 
-	num=`wc -l final_report.csv | cut -f1 -d' '`
+	num=`wc -l merged_splice.csv | cut -f1 -d' '`
 	rec=`echo $num/$n_cpus | bc`
 	rec=$((rec+1))
 	mkdir filter_split_splice
 	cd filter_split_splice
-	split -l $rec ../final_report.csv # set proper split parameters when needed
+	split -l $rec ../merged_splice.csv # set proper split parameters when needed
 	for file in x??
 	do
 		echo $file
-		perl $directory/src/infer_bp_splice.pl $file $tumor > $file.sp.vcf &
+		perl $directory/src/infer_bp_splice.pl $file $tumor $check > $file.sp.vcf &
 	done
 	wait
 	cd ..
 
-	perl $directory/src/filter_splice_junction.pl filter_split_splice/*.sp.vcf | cat header.txt - > splice_novoBreak.rna.pass.vcf 
-	perl $directory/src/full_filter_sv_icgc.pl filter_split_splice/*.sp.vcf | cat header.txt - > splice_full_novoBreak.rna.pass.vcf 
+	perl $directory/src/filter_splice_junction.pl filter_split_splice/*.sp.vcf | cat header.txt - > temp_splice_pass.tsv
+	python $directory/src/merge_junction.py $output
 	rm sj_*
 fi
 cd ..

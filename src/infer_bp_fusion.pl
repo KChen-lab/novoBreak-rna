@@ -8,6 +8,7 @@ use English;
 
 my $vcf = shift or die "Usage: $0 <vcf> <tumor.bam>\n";
 my $tbam = shift or die "Usage: $0 <vcf> <tumor.bam>\n";
+my $bool = shift or die  "Usage: $0 <vcf> <tumor.bam> <bool>\n";
 
 open IN, $vcf or die $!;
 while (<IN>) {
@@ -37,12 +38,20 @@ while (<IN>) {
 	}
 	$chr1=~ tr/chr//d;
 	$chr2=~ tr/chr//d;
-	system("samtools", "view", $tbam, "chr".$chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
+	if ($bool eq 'True'){
+		system("samtools", "view", $tbam, "chr".$chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
+	}else{
+		system("samtools", "view", $tbam, $chr1.":".$beg."-".$fin, "-o", "$PID.regionsam2.tmp");
+	}
 	open $fh , "$PID.regionsam2.tmp" or die $!;
 	my @pos1_tum = count_sp($fh, $e[1]);
 	seek $fh, 0, 0;
 	close $fh;
-	system("samtools", "view", $tbam, "chr".$chr2.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	if ($bool eq 'True'){
+		system("samtools", "view", $tbam, "chr".$chr2.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	}else{
+		system("samtools", "view", $tbam, $chr2.":".$beg2."-".$fin2, "-o", "$PID.regionsam2.tmp");
+	}
 	open $fh , "$PID.regionsam2.tmp" or die $!;
 	my @pos2_tum = count_sp($fh, $end);
 	seek $fh, 0, 0;

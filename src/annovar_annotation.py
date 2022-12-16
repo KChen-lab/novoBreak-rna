@@ -21,7 +21,7 @@ with open(inputVCF, 'r') as reader:
 reader.close()
 outputAnno.close()
 subprocess.run([position+"/app/annotate_variation.pl", "-geneanno", "-dbtype", "refGene",
-            "-buildver", "hg38", outputAnnoPath,  position+"/humandb_hg38"])
+            "-buildver", "hg38", outputAnnoPath,  position+"/database/humandb_hg38"])
 
 inputAnnoPath = outputAnnoPath+".variant_function"
 outputAnno_second_Path = sys.argv[1].replace("vcf", "second.annovar")
@@ -46,7 +46,7 @@ with open(inputAnnoPath, 'r') as reader:
 outputAnno_second.close()
 reader.close()
 subprocess.run([position+"/app/annotate_variation.pl", "-geneanno", "-dbtype", "refGene",
-                "-buildver", "hg38",  outputAnno_second_Path,  position+"/humandb_hg38"])
+                "-buildver", "hg38",  outputAnno_second_Path,  position+"/database/humandb_hg38"])
 
 outputAnno_all_Path = sys.argv[1].replace("vcf", "all.annovar")
 inputAllAnnoPath = outputAnno_second_Path+".variant_function"

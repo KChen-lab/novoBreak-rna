@@ -5,7 +5,7 @@ import sys
 path = sys.argv[1]
 
 count_dict = {}
-df = pd.read_csv(path+"/novoBreak.rna.pass.vcf", sep='\t')
+df = pd.read_csv(path+"/fusion_novoRNABreak_pass.tsv", sep='\t')
 for index, row in df.iterrows():
 	if (row.iloc[11], row.iloc[13]) in count_dict:
 		count_dict[(row.iloc[11], row.iloc[13])] += 1
